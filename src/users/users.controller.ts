@@ -1,4 +1,18 @@
-import { Controller, Post, Body, Get, Param, Query, Delete, Patch, ClassSerializerInterceptor, UseInterceptors, Session, UseGuards } from '@nestjs/common';
+import {
+    Controller,
+    Post,
+    Body,
+    Get,
+    Param,
+    Query,
+    Delete,
+    Patch,
+    ClassSerializerInterceptor,
+    UseInterceptors,
+    Session,
+    UseGuards,
+    NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDTO } from 'src/shared/models/users.dto';
 import { UpdateUserDTO } from 'src/shared/models/update-user.dto';
@@ -10,17 +24,16 @@ import { CurrentUserInterceptor } from './Interceptor/current-user.interceptor';
 import { User } from './user.entity';
 import { AuthGuard } from 'src/guard/auth.guard';
 
-
 @Controller('auth')
 @Serialize(UserDTO)
 // @UseInterceptors(CurrentUserInterceptor) // * TD approaches to over come this we need to add it modularization using APP_INTERCEPTORS
 export class UsersController {
-    constructor(private readonly usersService: UsersService, private readonly authService: AuthService) {
-    }
+    constructor(
+        private readonly usersService: UsersService,
+        private readonly authService: AuthService,
+    ) {}
 
-    @Get('/signed-user')
-    @UseGuards(AuthGuard)
-    /** 
+    /**
      * * One way of extracting the data from the session
      */
     // getSignedUser(@Session() session: any) {
@@ -29,21 +42,22 @@ export class UsersController {
     /**
      * * Custom decorator for extracting the data from the session
      */
+    @Get('/signed-user')
+    @UseGuards(AuthGuard)
     getSignedUser(@CurrentUser() user: User) {
         return user;
     }
 
-
     @Post('signup')
     async signUp(@Body() body: CreateUsersDTO, @Session() session: any) {
-        const user = await this.authService.signup(body.email, body.password)
+        const user = await this.authService.signup(body.email, body.password);
         session.userId = user.id;
         return user;
     }
 
     @Post('sign-in')
     async signIn(@Body() body: CreateUsersDTO, @Session() session: any) {
-        const user = await this.authService.signin(body.email, body.password)
+        const user = await this.authService.signin(body.email, body.password);
         session.userId = user.id;
         return user;
     }
@@ -57,8 +71,12 @@ export class UsersController {
 
     // * Custom serializer interceptor
     @Get('users/:id')
-    findUser(@Param('id') id: string) {
-        return this.usersService.findOne(Number(id));
+    async findUser(@Param('id') id: string) {
+        const user = await this.usersService.findOne(Number(id));
+        if (!user) {
+            throw new NotFoundException('User Not Found');
+        }
+        return user;
     }
 
     @Get('users')
@@ -68,7 +86,7 @@ export class UsersController {
 
     @Delete('users/:id')
     removeUser(@Param('id') id: string) {
-        return this.usersService.removeUser(Number(id))
+        return this.usersService.removeUser(Number(id));
     }
 
     @Patch('users/:id')
