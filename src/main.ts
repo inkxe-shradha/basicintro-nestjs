@@ -1,23 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const cookieSession = require('cookie-session');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(cookieSession(
-    {
-      keys: ['cookie-session']
-    }
-  ))
-  app.useGlobalPipes(
-    new ValidationPipe(
-      {
-        whitelist: true
-      }
-    )
-  );
+
+  // Global pipe configuration for the validation pipe and cookie sessions ( Comment it out for now because of the End to end testing configuration. This has been now configured in the App.controller.ts file)
+  // app.useGlobalPipes(
+  //   new ValidationPipe(
+  //     {
+  //       whitelist: true
+  //     }
+  //   )
+  // );
+
+
   await app.listen(3000);
 }
 bootstrap();

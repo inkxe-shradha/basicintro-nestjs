@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, NotFoundException } from '@nestjs/common';
-import { CreateMessageDto } from 'src/shared/models/crate-message.dto';
+import { CreateMessageDto } from '../shared/models/crate-message.dto';
 import { MessagesService } from './messages.service';
 
 @Controller('/messages') // Class decorator
