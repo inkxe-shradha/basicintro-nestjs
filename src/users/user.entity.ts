@@ -1,6 +1,14 @@
-import { Exclude } from "class-transformer";
-import { AfterInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Reports } from './../reports/reports.entitiy';
+import { Exclude } from 'class-transformer';
+import {
+    AfterInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -13,6 +21,9 @@ export class User {
     @Column()
     // @Exclude() // * One way to restrict the value
     password: string;
+
+    @OneToMany(() => Reports, (report) => report.user)
+    reports: Reports[];
 
     @CreateDateColumn()
     created_at: Date;

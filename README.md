@@ -83,7 +83,7 @@ Nest is [MIT licensed](LICENSE).
 
 Here we need to create two new environments for our application database to  configure and run the database 
 
-- env.development and env.test 
+- env.development and env.test
 
 Then add these environment variables based on the environment variables
 

@@ -1,4 +1,11 @@
-import { IsLongitude, IsNumber, IsPositive, IsString, Max, Min } from "class-validator";
+import {
+    IsLongitude,
+    IsNumber,
+    IsPositive,
+    IsString,
+    Max,
+    Min,
+} from 'class-validator';
 
 export class CreateReportDTO {
     @IsString()
@@ -15,7 +22,7 @@ export class CreateReportDTO {
     @IsNumber()
     @Min(0)
     @Max(1000000)
-    mileage: number;
+    millage: number;
 
     @IsLongitude()
     lng: number;

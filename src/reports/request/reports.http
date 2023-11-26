@@ -1,0 +1,13 @@
+# * * * * * * * * * * * * * * * Create a new Report API request * * * * * * * * * * * * * * * * * #
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+    "make": "Tata",
+    "model": "Harrier",
+    "year": 2021,
+    "millage":  40000,
+    "lng": "0",
+    "lat": "0",
+    "price": 14000000
+}
