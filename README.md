@@ -78,3 +78,22 @@ Nest is [MIT licensed](LICENSE).
 - @Query()  Used for extracting the Query parameters from the URL.
 - @Headers() Used for extracting the headers in the HTTP request.
 - @Body() Used for extracting the body in the HTTP request.
+
+### Environments
+
+Here we need to create two new environments for our application database to  configure and run the database 
+
+- env.development and env.test 
+
+Then add these environment variables based on the environment variables
+
+```bash
+# environment development
+DB_NAME='db.sqlite'
+DB_PASSWORD='db.password'
+
+#  environment Test
+DB_NAME='test.sqlite'
+DB_PASSWORD='test.password'
+
+```
